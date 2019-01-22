@@ -14,18 +14,15 @@ TEST(SearchTest, binary_search) {
 TEST(SearchTest, bfs_search) {
 	using namespace std;
 
-	map<string, string> g;
-	g["zs"] = "you";
-	g["ls"] = "you";
-	g["ww"] = "you";
-	g["aa"] = "zs";
-	g["bb"] = "ls";
-	g["cc"] = "ww";
-	g["kk"] = "bb";
-	g["fm"] = "kk";
+	map<string, vector<string>> g;
+	g["you"] = { "a","b","c" };
+	g["a"] = { "b","c","d" };
+	g["b"] = { "c","d","e" };
+	g["c"] = { "d","e","f" };
+	g["d"] = { "e","f","g" };
 
 	Search s;
-	auto r = s.bfs_search(g, "fm");
+	auto r = s.bfs_search(g, "you", "g");
 	EXPECT_TRUE(r);
 }
 

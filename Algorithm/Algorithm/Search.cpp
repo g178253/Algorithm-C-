@@ -21,53 +21,46 @@ int Search::binary_search(const vector<int>& list, int item) const
 	return -1;
 }
 
-bool Search::bfs_search(const map<string, string> graph, const string& match)
+bool Search::bfs_search(const map<string, vector<string>> graph, const string& start, const string& match)
 {
 	queue<string> search;
 	vector<string> searched;
 
-	for (auto &p : graph)
+	auto iter = graph.find(start);
+	if (iter == graph.end())
+		throw invalid_argument{ "参数无效：未找到与 start 匹配的元素" };
+
+	for (auto &p : iter->second)
 	{
-		if (p.second == "you")
-		{
-			search.push(p.first);
-		}
+		search.push(p);
 	}
 	
-	string key, value;
-	auto isSearched{ false };
+	string value;
 	while (!search.empty())
 	{
 		value = search.front();
 		search.pop();
-		isSearched = false;
 
-		for (auto& i : searched)
+		for (auto& p : searched)
 		{
-			if (i == value)
-			{
-				isSearched = true;
-				break;
-			}
+			if (p == value) continue; // 已查询过，不再查询。
 		}
 
-		if (!isSearched)
+		if (value == match) // 匹配成功，返回。
 		{
-			isSearched = true;
-
-			if (value == match)
+			return true;
+		}
+		else
+		{
+			iter = graph.find(value);
+			if (iter != graph.end())
 			{
-				return true;
-			}
-			else
-			{
-				for (auto &p : graph)
+				for (auto &p : iter->second)
 				{
-					if (p.second == value)
-						search.push(p.first);
+					search.push(p);	// 将它的邻居添加到待查队列。
 				}
-				searched.push_back(value);
 			}
+			searched.push_back(value);
 		}
 	}
 
