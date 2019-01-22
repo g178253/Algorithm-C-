@@ -11,6 +11,24 @@ TEST(SearchTest, binary_search) {
 	EXPECT_EQ(4, i);
 }
 
+TEST(SearchTest, bfs_search) {
+	using namespace std;
+
+	map<string, string> g;
+	g["zs"] = "you";
+	g["ls"] = "you";
+	g["ww"] = "you";
+	g["aa"] = "zs";
+	g["bb"] = "ls";
+	g["cc"] = "ww";
+	g["kk"] = "bb";
+	g["fm"] = "kk";
+
+	Search s;
+	auto r = s.bfs_search(g, "fm");
+	EXPECT_TRUE(r);
+}
+
 TEST(SortTest, quick_sort) {
 	using namespace std;
 
